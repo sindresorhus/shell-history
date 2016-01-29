@@ -35,6 +35,7 @@ On Windows it will always be an empty array as command history is not persisted 
 ## Related
 
 - [shell-path](https://github.com/sindresorhus/shell-path) - Get the $PATH from the shell
+- [shell-env](https://github.com/sindresorhus/shell-env) - Get environment variables from the shell
 
 
 ## License

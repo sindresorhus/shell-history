@@ -43,9 +43,11 @@ function getPath(opts) {
 
 	return Array.from(paths).map(fp => {
 		try {
-			return fs.statSync(fp).size;
-		} catch (err) {}
-	}).reduce((a, b) => a > b ? a : b);
+			return {fp, size: fs.statSync(fp).size};
+		} catch (err) {
+			return {};
+		}
+	}).reduce((a, b) => a.size > b.size ? a : b).fp;
 }
 
 module.exports = opts => {

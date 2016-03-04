@@ -31,7 +31,9 @@
     "history",
     "histfile",
     "command",
-    "cmd"
+    "cmd",
+    "parse",
+    "path"
   ],
   "devDependencies": {
     "ava": "*",

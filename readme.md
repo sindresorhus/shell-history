@@ -18,8 +18,8 @@ const shellHistory = require('shell-history');
 console.log(shellHistory());
 //=> ['ava', 'echo unicorn', 'node', 'npm test', ...]
 
-console.log(shellHistory().path);
-//=> /Users/sindresorhus/.history
+console.log(shellHistory.path());
+//=> '/Users/sindresorhus/.history'
 ```
 
 
@@ -27,9 +27,17 @@ console.log(shellHistory().path);
 
 ### shellHistory()
 
-Returns an array of commands.
+Get an array of commands.
 
 On Windows it will always be an empty array as command history is not persisted there.
+
+### shellHistory.path()
+
+Get the path of the file containing the shell history.
+
+### shellHistory.parse(string)
+
+Parse a shell history string into an array of commands.
 
 
 ## Related
@@ -40,4 +48,4 @@ On Windows it will always be an empty array as command history is not persisted 
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)

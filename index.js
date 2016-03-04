@@ -3,11 +3,28 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 
-module.exports = opts => {
+function parse(str) {
+	const reBashHistory = /^: \d+:0;/;
+
+	return str.trim().split('\n').map(x => {
+		if (reBashHistory.test(x)) {
+			return x.split(';').slice(1).join(';');
+		}
+
+		// ZSH just places one command on each line
+		return x;
+	});
+}
+
+function getPath(opts) {
 	opts = opts || {};
 
 	if (process.platform === 'win32') {
-		return [];
+		return '';
+	}
+
+	if (process.env.HISTFILE) {
+		return process.env.HISTFILE;
 	}
 
 	const homeDir = os.homedir();
@@ -18,10 +35,6 @@ module.exports = opts => {
 		path.join(homeDir, '.history')
 	]);
 
-	if (process.env.HISTFILE) {
-		paths.add(process.env.HISTFILE);
-	}
-
 	if (opts.extraPaths) {
 		for (const path of opts.extraPaths) {
 			paths.add(path);
@@ -29,17 +42,21 @@ module.exports = opts => {
 	}
 
 	return Array.from(paths).map(fp => {
-		let ret = [];
-
 		try {
-			ret = fs.readFileSync(fp, 'utf8').trim().split('\n');
+			return fs.statSync(fp).size;
 		} catch (err) {}
+	}).reduce((a, b) => a > b ? a : b);
+}
 
-		ret.path = fp;
+module.exports = opts => {
+	opts = opts || {};
 
-		// handle bash history syntax
-		ret = ret.map(x => /^: \d+:0;/.test(x) ? x.split(';').slice(1).join(';') : x);
+	if (process.platform === 'win32') {
+		return [];
+	}
 
-		return ret;
-	}).reduce((a, b) => a.length > b.length ? a : b);
+	return parse(fs.readFileSync(getPath(opts), 'utf8'));
 };
+
+module.exports.path = getPath;
+module.exports.parse = parse;

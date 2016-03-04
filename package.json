@@ -1,6 +1,6 @@
 {
   "name": "shell-history",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Get the command history of the user's shell",
   "license": "MIT",
   "repository": "sindresorhus/shell-history",

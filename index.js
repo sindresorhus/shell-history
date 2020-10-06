@@ -63,7 +63,9 @@ module.exports = options => {
 	options = options || {};
 
 	if (process.platform === 'win32') {
-		return [];
+		let cp = require("child_process");
+		let dk = cp.spawnSync("doskey", ["/history"]);
+		return dk.stdout.toString().replace(/\n/g, '').split('\r') || [];
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

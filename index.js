@@ -19,10 +19,7 @@ function parse(string) {
 function getPath(options) {
 	options = options || {};
 
-	if (process.platform === 'win32') {
-		return '';
-	}
-
+	// HISTFILE might be cross-platform, so win32 check is after!
 	if (process.env.HISTFILE) {
 		return process.env.HISTFILE;
 	}
@@ -63,9 +60,12 @@ module.exports = options => {
 	options = options || {};
 
 	if (process.platform === 'win32') {
-		let cp = require("child_process");
-		let dk = cp.spawnSync("doskey", ["/history"]);
-		return dk.stdout.toString().replace(/\n/g, '').split('\r') || [];
+		let histFile = getPath(opts);
+		if (histFile) return parse(fs.readFileSync(histFile, 'utf8'));
+		// No histfile used -- spawn a doskey
+		let childProcess = require("child_process");
+		let doskey = childProcess.spawnSync("doskey", ["/history"]);
+		return doskey.stdout.toString().trim().split('\r\n') || []; // enforce array
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

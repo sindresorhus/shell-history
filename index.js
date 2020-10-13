@@ -32,9 +32,7 @@ function getPath(options) {
 	const paths = new Set([
 		path.join(homeDir, '.bash_history'),
 		path.join(homeDir, '.zsh_history'),
-		path.join(homeDir, '.history'),
-		path.join(homeDir, '.config/fish/fish_history'),
-		path.join(homeDir, '.local/share/fish/fish_history') // For fish v2.3.0 and later
+		path.join(homeDir, '.history')
 	]);
 
 	if (options.extraPaths) {

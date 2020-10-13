@@ -7,10 +7,10 @@
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
+    "url": "https://sindresorhus.com"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=10"
   },
   "scripts": {
     "test": "xo && ava"
@@ -36,7 +36,7 @@
     "path"
   ],
   "devDependencies": {
-    "ava": "*",
-    "xo": "*"
+    "ava": "2.4.0",
+    "xo": "^0.33.1"
   }
 }

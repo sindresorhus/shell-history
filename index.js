@@ -41,10 +41,11 @@ function getPath(options) {
 		}
 	}
 
-	return [...paths]
-		.filter(path => fs.existsSync(path))
+	const historyPath = [...paths].filter(path => fs.existsSync(path))
 		.map(path => ({path, size: fs.statSync(path).size}))
 		.reduce((a, b) => a.size > b.size ? a : b).path; // eslint-disable-line unicorn/no-reduce
+
+	return historyPath;
 }
 
 module.exports = options => {

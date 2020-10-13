@@ -1,3 +1,3 @@
 const readHis = require('.');
 
-console.log(readHis.path());
+console.log(readHis());

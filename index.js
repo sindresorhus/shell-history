@@ -32,7 +32,9 @@ function getPath(options) {
 	const paths = new Set([
 		path.join(homeDir, '.bash_history'),
 		path.join(homeDir, '.zsh_history'),
-		path.join(homeDir, '.history')
+		path.join(homeDir, '.history'),
+		path.join(homeDir, '.config/fish/fish_history'),
+		path.join(homeDir, '.local/share/fish/fish_history') // For fish v2.3.0 and later
 	]);
 
 	if (options.extraPaths) {
@@ -41,11 +43,22 @@ function getPath(options) {
 		}
 	}
 
-	const historyPath = [...paths].filter(path => fs.existsSync(path))
-		.map(path => ({path, size: fs.statSync(path).size}))
-		.reduce((a, b) => a.size > b.size ? a : b).path; // eslint-disable-line unicorn/no-reduce
+	const filterdHistoryPath = () => {
+		let largestFile;
+		let size = 0;
+		for (const path of paths) {
+			if (fs.existsSync(path)) {
+				if (fs.statSync(path).size > size) {
+					size = fs.statSync(path).size;
+					largestFile = path;
+				}
+			}
+		}
 
-	return historyPath;
+		return largestFile;
+	};
+
+	return filterdHistoryPath();
 }
 
 module.exports = options => {

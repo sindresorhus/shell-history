@@ -60,12 +60,17 @@ module.exports = options => {
 	options = options || {};
 
 	if (process.platform === 'win32') {
-		let histFile = getPath(opts);
-		if (histFile) return parse(fs.readFileSync(histFile, 'utf8'));
+		const histFile = getPath(options);
+		if (histFile) {
+			return parse(fs.readFileSync(histFile, 'utf8'));
+		}
+
 		// No histfile used -- spawn a doskey
-		let childProcess = require("child_process");
-		let doskey = childProcess.spawnSync("doskey", ["/history"]);
-		return doskey.stdout.toString().trim().split('\r\n') || []; // enforce array
+		const childProcess = require('child_process');
+		const doskey = childProcess.spawnSync('doskey', ['/history'], {
+			encoding: 'utf8'
+		});
+		return doskey.stdout.trim().split('\r\n') || []; // Enforce array
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

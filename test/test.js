@@ -1,6 +1,6 @@
 import test from 'ava';
-import shellHostory from '..';
+import shellHistory from '..';
 
 test('main', t => {
-	t.true(shellHostory({extraPaths: ['./fixture']}).length > 0);
+	t.true(shellHistory({extraPaths: ['./fixture']}).length > 0);
 });

@@ -22,7 +22,6 @@ console.log(shellHistory.path());
 //=> '/Users/sindresorhus/.history'
 ```
 
-On Windows, a child_process is spawned calling the `doskey /history` command. This means that only the session will be returned.
 
 ## API
 

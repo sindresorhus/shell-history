@@ -2,6 +2,7 @@
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+const childProcess = require('child_process');
 
 function parse(string) {
 	const reBashHistory = /^: \d+:0;/;
@@ -19,7 +20,6 @@ function parse(string) {
 function getPath(options) {
 	options = options || {};
 
-	// HISTFILE might be cross-platform, so win32 check is after!
 	if (process.env.HISTFILE) {
 		return process.env.HISTFILE;
 	}
@@ -60,17 +60,16 @@ module.exports = options => {
 	options = options || {};
 
 	if (process.platform === 'win32') {
-		const histFile = getPath(options);
-		if (histFile) {
-			return parse(fs.readFileSync(histFile, 'utf8'));
+		const historyPath = getPath(options);
+		if (historyPath) {
+			return parse(fs.readFileSync(historyPath, 'utf8'));
 		}
 
 		// No histfile used -- spawn a doskey
-		const childProcess = require('child_process');
-		const doskey = childProcess.spawnSync('doskey', ['/history'], {
+		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {
 			encoding: 'utf8'
 		});
-		return doskey.stdout.trim().split('\r\n') || []; // Enforce array
+		return stdout.trim().split('\r\n') || [];
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

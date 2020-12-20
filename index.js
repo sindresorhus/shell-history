@@ -65,10 +65,7 @@ module.exports = options => {
 			return parse(fs.readFileSync(historyPath, 'utf8'));
 		}
 
-		// No histfile found, so spawn a doskey
-		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {
-			encoding: 'utf8'
-		});
+		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {encoding: 'utf8'});
 		return stdout.trim().split('\r\n') || [];
 	}
 

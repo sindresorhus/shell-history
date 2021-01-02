@@ -1,4 +1,4 @@
-# shell-history [![Build Status](https://travis-ci.org/sindresorhus/shell-history.svg?branch=master)](https://travis-ci.org/sindresorhus/shell-history)
+# shell-history
 
 > Get the command history of the user's [shell](https://en.wikipedia.org/wiki/Shell_(computing))
 

@@ -34,7 +34,7 @@ On Windows, unless the `HISTFILE` environment variable is set, this will only re
 
 Get the path of the file containing the shell history.
 
-On Windows, this will return either the `HISTFILE` environment variable, or `undefined`.
+On Windows, this will return either the `HISTFILE` environment variable or `undefined`.
 
 ### shellHistory.parse(string)
 

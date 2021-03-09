@@ -66,7 +66,7 @@ module.exports = options => {
 		}
 
 		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {encoding: 'utf8'});
-		return stdout.trim().split('\r\n') || [];
+		return stdout.trim().split('\r\n');
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

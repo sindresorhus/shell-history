@@ -22,6 +22,7 @@ console.log(shellHistory.path());
 //=> '/Users/sindresorhus/.history'
 ```
 
+
 ## API
 
 ### shellHistory()

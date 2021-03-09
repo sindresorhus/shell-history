@@ -5,9 +5,9 @@
 @echo off
 
 echo Print entire history
-node -p "const history = require('.'); history()"
+node --print "const history = require('.'); history()"
 pause
 echo.
 echo Print last command (which will be "test_win.bat")
-node -p "const history = require('.'); let h = history(); h[h.length - 1]"
+node --print "const history = require('.'); let h = history(); h[h.length - 1]"
 pause

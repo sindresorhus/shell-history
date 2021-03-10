@@ -1,25 +1,22 @@
-'use strict';
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const childProcess = require('child_process');
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
+import childProcess from 'child_process';
 
-function parse(string) {
+export function parseShellHistory(string) {
 	const reBashHistory = /^: \d+:0;/;
 
-	return string.trim().split('\n').map(x => {
-		if (reBashHistory.test(x)) {
-			return x.split(';').slice(1).join(';');
+	return string.trim().split('\n').map(line => {
+		if (reBashHistory.test(line)) {
+			return line.split(';').slice(1).join(';');
 		}
 
 		// ZSH just places one command on each line
-		return x;
+		return line;
 	});
 }
 
-function getPath(options) {
-	options = options || {};
-
+export function shellHistoryPath({extraPaths = []} = {}) {
 	if (process.env.HISTFILE) {
 		return process.env.HISTFILE;
 	}
@@ -32,21 +29,22 @@ function getPath(options) {
 		path.join(homeDir, '.history')
 	]);
 
-	if (options.extraPaths) {
-		for (const path of options.extraPaths) {
-			paths.add(path);
-		}
+	for (const path of extraPaths) {
+		paths.add(path);
 	}
 
 	const filterdHistoryPath = () => {
 		let largestFile;
 		let size = 0;
+
 		for (const path of paths) {
-			if (fs.existsSync(path)) {
-				if (fs.statSync(path).size > size) {
-					size = fs.statSync(path).size;
-					largestFile = path;
-				}
+			if (!fs.existsSync(path)) {
+				continue;
+			}
+
+			if (fs.statSync(path).size > size) {
+				size = fs.statSync(path).size;
+				largestFile = path;
 			}
 		}
 
@@ -56,21 +54,16 @@ function getPath(options) {
 	return filterdHistoryPath();
 }
 
-module.exports = options => {
-	options = options || {};
-
+export function shellHistory(options = {}) {
 	if (process.platform === 'win32') {
-		const historyPath = getPath(options);
+		const historyPath = shellHistoryPath(options);
 		if (historyPath) {
-			return parse(fs.readFileSync(historyPath, 'utf8'));
+			return parseShellHistory(fs.readFileSync(historyPath, 'utf8'));
 		}
 
 		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {encoding: 'utf8'});
 		return stdout.trim().split('\r\n');
 	}
 
-	return parse(fs.readFileSync(getPath(options), 'utf8'));
-};
-
-module.exports.path = getPath;
-module.exports.parse = parse;
+	return parseShellHistory(fs.readFileSync(shellHistoryPath(options), 'utf8'));
+}

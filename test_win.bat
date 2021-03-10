@@ -5,9 +5,9 @@
 @echo off
 
 echo Print entire history
-node --print "const history = require('.'); history()"
+node --print "import shellHistory from './index.js'; shellHistory()"
 pause
 echo.
 echo Print last command (which will be "test_win.bat")
-node --print "const history = require('.'); let h = history(); h[h.length - 1]"
+node --print "import shellHistory from './index.js'; const history = shellHistory(); history[history.length - 1]"
 pause

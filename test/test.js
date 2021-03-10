@@ -1,8 +1,6 @@
 import test from 'ava';
-import shellHistory from '..';
-
-process.chdir(__dirname);
+import {shellHistory} from '../index.js';
 
 test('main', t => {
-	t.true(shellHistory({extraPaths: ['./fixture']}).length > 0);
+	t.true(shellHistory({extraPaths: ['./test/fixture']}).length > 0);
 });

@@ -2,26 +2,23 @@
 
 > Get the command history of the user's [shell](https://en.wikipedia.org/wiki/Shell_(computing))
 
-
 ## Install
 
 ```
-$ npm install --save shell-history
+$ npm install shell-history
 ```
-
 
 ## Usage
 
 ```js
-const shellHistory = require('shell-history');
+import {shellHistory, shellHistoryPath} from 'shell-history';
 
 console.log(shellHistory());
-//=> ['ava', 'echo unicorn', 'node', 'npm test', ...]
+//=> ['ava', 'echo unicorn', 'node', 'npm test', …]
 
-console.log(shellHistory.path());
+console.log(shellHistoryPath());
 //=> '/Users/sindresorhus/.history'
 ```
-
 
 ## API
 
@@ -31,23 +28,17 @@ Get an array of commands.
 
 On Windows, unless the `HISTFILE` environment variable is set, this will only return commands from the current session.
 
-### shellHistory.path()
+### shellHistoryPath()
 
 Get the path of the file containing the shell history.
 
 On Windows, this will return either the `HISTFILE` environment variable or `undefined`.
 
-### shellHistory.parse(string)
+### parseShellHistory(string)
 
 Parse a shell history string into an array of commands.
-
 
 ## Related
 
 - [shell-path](https://github.com/sindresorhus/shell-path) - Get the $PATH from the shell
 - [shell-env](https://github.com/sindresorhus/shell-env) - Get environment variables from the shell
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

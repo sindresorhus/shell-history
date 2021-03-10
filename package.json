@@ -1,42 +1,45 @@
 {
-  "name": "shell-history",
-  "version": "1.1.0",
-  "description": "Get the command history of the user's shell",
-  "license": "MIT",
-  "repository": "sindresorhus/shell-history",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "https://sindresorhus.com"
-  },
-  "engines": {
-    "node": ">=10"
-  },
-  "scripts": {
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "shell",
-    "sh",
-    "zsh",
-    "bash",
-    "cli",
-    "command-line",
-    "terminal",
-    "term",
-    "console",
-    "history",
-    "histfile",
-    "command",
-    "cmd",
-    "parse",
-    "path"
-  ],
-  "devDependencies": {
-    "ava": "2.4.0",
-    "xo": "^0.33.1"
-  }
+	"name": "shell-history",
+	"version": "1.1.0",
+	"description": "Get the command history of the user's shell",
+	"license": "MIT",
+	"repository": "sindresorhus/shell-history",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": "./index.js",
+	"engines": {
+		"node": ">=12"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"shell",
+		"sh",
+		"zsh",
+		"bash",
+		"cli",
+		"command-line",
+		"terminal",
+		"term",
+		"console",
+		"history",
+		"histfile",
+		"command",
+		"cmd",
+		"parse",
+		"path"
+	],
+	"devDependencies": {
+		"ava": "3.15.0",
+		"xo": "^0.38.2"
+	}
 }

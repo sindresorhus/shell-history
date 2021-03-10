@@ -29,11 +29,13 @@ console.log(shellHistory.path());
 
 Get an array of commands.
 
-On Windows it will always be an empty array as command history is not persisted there.
+On Windows, unless the `HISTFILE` environment variable is set, this will only return commands from the current session.
 
 ### shellHistory.path()
 
 Get the path of the file containing the shell history.
+
+On Windows, this will return either the `HISTFILE` environment variable or `undefined`.
 
 ### shellHistory.parse(string)
 

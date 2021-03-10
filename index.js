@@ -2,6 +2,7 @@
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+const childProcess = require('child_process');
 
 function parse(string) {
 	const reBashHistory = /^: \d+:0;/;
@@ -18,10 +19,6 @@ function parse(string) {
 
 function getPath(options) {
 	options = options || {};
-
-	if (process.platform === 'win32') {
-		return '';
-	}
 
 	if (process.env.HISTFILE) {
 		return process.env.HISTFILE;
@@ -63,7 +60,13 @@ module.exports = options => {
 	options = options || {};
 
 	if (process.platform === 'win32') {
-		return [];
+		const historyPath = getPath(options);
+		if (historyPath) {
+			return parse(fs.readFileSync(historyPath, 'utf8'));
+		}
+
+		const {stdout} = childProcess.spawnSync('doskey', ['/history'], {encoding: 'utf8'});
+		return stdout.trim().split('\r\n');
 	}
 
 	return parse(fs.readFileSync(getPath(options), 'utf8'));

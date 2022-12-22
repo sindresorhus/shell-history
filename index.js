@@ -54,7 +54,34 @@ export function shellHistoryPath({extraPaths = []} = {}) {
 	return filterdHistoryPath();
 }
 
-export function shellHistory(options = {}) {
+const decode = (input) => {
+    let change = false;
+
+    // covert to Buffer
+    const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
+
+    // decode Buffer
+    const result = Buffer.alloc(Buffer.byteLength(buf));
+
+    // decode
+    let index = 0;
+    for (const code of buf.values()) {
+        if (code === 0x83) {
+            change = true;
+        } else {
+            let d = code;
+            if (change) {
+                d = code ^ 32;
+            }
+
+            result.writeUInt8(d, index++);
+            change = false;
+        }
+    }
+    return result.toString();
+};
+
+export async function shellHistory(options = {}) {
 	if (process.platform === 'win32') {
 		const historyPath = shellHistoryPath(options);
 		if (historyPath) {
@@ -65,5 +92,21 @@ export function shellHistory(options = {}) {
 		return stdout.trim().split('\r\n');
 	}
 
-	return parseShellHistory(fs.readFileSync(shellHistoryPath(options), 'utf8'));
+    return new Promise(resolve => {
+        const data = [];
+
+        // Don't set encoding
+        const readSteam = fs.createReadStream(historyPath);
+
+        // read file steam
+        readSteam.on('data', chunk => {
+            data.push(chunk);
+        });
+
+        // finish read
+        readSteam.on('end', () => {
+            const history = parseShellHistory(data.map(decode).join(''));
+            resolve(history);
+        });
+    });
 }

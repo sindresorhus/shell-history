@@ -4,8 +4,8 @@
 
 ## Install
 
-```
-$ npm install shell-history
+```sh
+npm install shell-history
 ```
 
 ## Usage
